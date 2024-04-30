@@ -1,0 +1,11 @@
+INHERIT: ./mkdocs.base.yml
+site_name: FastAPI Sample
+site_description: FastAPI provides services through ApiGateway.
+docs_dir: en
+site_dir: ./site/en
+theme:
+  language: en
+nav:
+  - Introduction: index.md
+  - Local Dev: dev.md
+  - API: api.md

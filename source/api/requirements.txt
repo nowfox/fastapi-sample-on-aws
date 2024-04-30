@@ -1,2 +1,2 @@
-fastapi
-mangum
+fastapi~=0.110.2
+mangum~=0.17.0

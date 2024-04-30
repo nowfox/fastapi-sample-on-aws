@@ -22,7 +22,7 @@ export class ApiStack extends Construct {
   }
 
   private createRole() {
-    const apiRole = new Role(this, 'APIRole', {
+    const apiRole = new Role(this, "APIRole", {
       roleName: `${SolutionInfo.SOLUTION_NAME}APIRole-${Aws.REGION}`, //Name must be specified
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
     });

@@ -1,0 +1,46 @@
+site_name: Sensitive Data Protection on AWS
+site_url: https://nowfox.github.io/fastapi-sample-on-aws/
+repo_url: https://github.com/nowfox/fastapi-sample-on-aws
+repo_name: nowfox/fastapi-sample-on-aws
+
+theme:
+  favicon: https://www.nowfox.com/favicon.ico
+  logo: https://www.nowfox.com/favicon.ico
+  name: material
+  palette:
+    - media: "(prefers-color-scheme: light)" 
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)" 
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+extra:
+  generator: false
+  copyright: Copyright &copy; 2024 NowFox.com
+  alternate:
+    - name: English
+      link: /fastapi-sample-on-aws/en/
+      lang: en
+    - name: 简体中文
+      link: /fastapi-sample-on-aws/zh/
+      lang: zh
+  version: develop
+
+plugins:
+  - search
+  - include-markdown
+  - macros
+  - render_swagger
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.details
+  - pymdownx.superfences
+
+
