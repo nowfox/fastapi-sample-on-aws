@@ -12,24 +12,24 @@
  */
 
 export class Parameter {
-    static paramGroups: any[] = [];
-    static paramLabels: any = {};
+  static paramGroups: any[] = [];
+  static paramLabels: any = {};
 
-    public static init() {
-        this.paramGroups = [];
-        this.paramLabels = {};
-    }
+  public static init() {
+    this.paramGroups = [];
+    this.paramLabels = {};
+  }
 
-    public static addToParamGroups(label: string, ...param: string[]) {
-        this.paramGroups.push({
-            Label: { default: label },
-            Parameters: param,
-        });
-    }
+  public static addToParamGroups(label: string, ...param: string[]) {
+    this.paramGroups.push({
+      Label: { default: label },
+      Parameters: param,
+    });
+  }
 
-    public static addToParamLabels(label: string, param: string) {
-        this.paramLabels[param] = {
-            default: label,
-        };
-    }
+  public static addToParamLabels(label: string, param: string) {
+    this.paramLabels[param] = {
+      default: label,
+    };
+  }
 }

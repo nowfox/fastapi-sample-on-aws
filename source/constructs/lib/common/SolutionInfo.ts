@@ -12,13 +12,13 @@
  */
 
 export class SolutionInfo {
-    static SOLUTION_ID = 'Sxxxxx';
-    static SOLUTION_FULL_NAME = 'BaseFastAPIProject';
-    static SOLUTION_NAME = 'BaseFastAPI';
-    static SOLUTION_VERSION = '@TEMPLATE_BUILD_VERSION@';
-    static DESCRIPTION = `(${SolutionInfo.SOLUTION_ID}) ${SolutionInfo.SOLUTION_FULL_NAME} (Version ${SolutionInfo.SOLUTION_VERSION})`;
-    static TAG_NAME = 'Name';
-    static TAG_KEY = 'Owner';
-    static TAG_VALUE = SolutionInfo.SOLUTION_NAME;
-    static STAGE_VALUE = 'demo';
+  static SOLUTION_ID = 'Sxxxxx';
+  static SOLUTION_FULL_NAME = 'BaseFastAPIProject';
+  static SOLUTION_NAME = 'BaseFastAPI';
+  static SOLUTION_VERSION = '@TEMPLATE_BUILD_VERSION@';
+  static DESCRIPTION = `(${SolutionInfo.SOLUTION_ID}) ${SolutionInfo.SOLUTION_FULL_NAME} (Version ${SolutionInfo.SOLUTION_VERSION})`;
+  static TAG_NAME = 'Name';
+  static TAG_KEY = 'Owner';
+  static TAG_VALUE = SolutionInfo.SOLUTION_NAME;
+  static STAGE_VALUE = 'demo';
 }

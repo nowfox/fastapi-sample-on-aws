@@ -12,51 +12,42 @@
  */
 
 import {
-    CfnOutput,
-    CfnParameter,
-    CfnResource,
-    Stack,
-    StackProps,
-    CfnCondition,
-    Fn,
-    CfnStack,
-    Tags,
-    Aws,
+  Stack,
+  StackProps,
+  Tags,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { SolutionInfo } from './common/SolutionInfo';
+import { ApiStack } from './ApiStack';
 import { BuildConfig } from './common/BuildConfig';
 import { Parameter } from './common/Parameter';
-import { ApiStack } from './ApiStack';
+import { SolutionInfo } from './common/SolutionInfo';
 
 export interface MainProps extends StackProps {
-    readonly lambdaMemorySize?: number;
+  readonly lambdaMemorySize?: number;
 }
 
 
 export class MainStack extends Stack {
+  constructor(scope: Construct, id: string, props?: MainProps) {
+    super(scope, id, props);
 
-    constructor(scope: Construct, id: string, props?: MainProps) {
-        super(scope, id, props);
+    this.templateOptions.description = SolutionInfo.DESCRIPTION;
+    Parameter.init();
+    this.setBuildConfig();
 
-        this.templateOptions.description = SolutionInfo.DESCRIPTION;
-        Parameter.init();
-        this.setBuildConfig();
+    new ApiStack(this, 'API');
 
-        new ApiStack(this, 'API');
+    this.templateOptions.metadata = {
+      'AWS::CloudFormation::Interface': {
+        ParameterGroups: Parameter.paramGroups,
+        ParameterLabels: Parameter.paramLabels,
+      },
+    };
 
-        this.templateOptions.metadata = {
-            'AWS::CloudFormation::Interface': {
-                ParameterGroups: Parameter.paramGroups,
-                ParameterLabels: Parameter.paramLabels,
-            },
-        };
+    Tags.of(this).add(SolutionInfo.TAG_KEY, SolutionInfo.TAG_VALUE);
+  }
 
-        Tags.of(this).add(SolutionInfo.TAG_KEY, SolutionInfo.TAG_VALUE);
-    }
-
-    private setBuildConfig() {
-        BuildConfig.PIP_PARAMETER = this.node.tryGetContext('PipParameter') ?? '';
-    }
-
+  private setBuildConfig() {
+    BuildConfig.PIP_PARAMETER = this.node.tryGetContext('PipParameter') ?? '';
+  }
 }

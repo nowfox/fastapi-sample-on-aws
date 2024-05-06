@@ -12,5 +12,5 @@
  */
 
 export class BuildConfig {
-    static PIP_PARAMETER = '';
+  static PIP_PARAMETER = '';
 }

@@ -1,18 +1,15 @@
-import { Aws, Stack, StackProps, Duration, CfnOutput, } from 'aws-cdk-lib';
-import { Construct } from 'constructs';
-import { Policy, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
-import { SolutionInfo } from './common/SolutionInfo';
-import { Code, LayerVersion, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
 import path = require('path');
-import { BuildConfig } from './common/BuildConfig';
+import { Aws, Stack, StackProps, Duration, CfnOutput } from 'aws-cdk-lib';
 import { RestApi, EndpointType, Cors, LambdaIntegration, Deployment, MethodLoggingLevel, Stage } from 'aws-cdk-lib/aws-apigateway';
+import { Policy, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
+import { Code, LayerVersion, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
+import { Construct } from 'constructs';
+import { BuildConfig } from './common/BuildConfig';
+import { SolutionInfo } from './common/SolutionInfo';
 
-export interface AISolutionKitWorkshopStackProps extends StackProps {
-  readonly lambdaMemorySize?: number;
-}
 
 export class ApiStack extends Construct {
-  constructor(scope: Construct, id: string, props?: AISolutionKitWorkshopStackProps) {
+  constructor(scope: Construct, id: string) {
     super(scope, id);
 
     const role = this.createRole();
@@ -22,7 +19,7 @@ export class ApiStack extends Construct {
   }
 
   private createRole() {
-    const apiRole = new Role(this, "APIRole", {
+    const apiRole = new Role(this, 'APIRole', {
       roleName: `${SolutionInfo.SOLUTION_NAME}APIRole-${Aws.REGION}`, //Name must be specified
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
     });
@@ -78,15 +75,15 @@ export class ApiStack extends Construct {
       role: apiRole,
       environment: {
         Stage: SolutionInfo.STAGE_VALUE,
-      }
+      },
     });
     return apiFunction;
   }
 
   private createApiGateway(apiFunction: Function) {
-    const api = new RestApi(this, "ApiGateway", {
-      restApiName: "FastAPI sample",
-      description: "FastAPI sample",
+    const api = new RestApi(this, 'ApiGateway', {
+      restApiName: 'FastAPI sample',
+      description: 'FastAPI sample',
       deploy: false,
       endpointConfiguration: {
         types: [EndpointType.REGIONAL],
