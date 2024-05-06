@@ -1,6 +1,6 @@
 INHERIT: ./mkdocs.base.yml
 site_name: FastAPI样例
-site_description: 在AWS上通过API Gateway使用FastAPI。
+site_description: 在AWS上通过API Gateway使用FastAPI
 docs_dir: zh
 site_dir: ./site/zh
 theme:
