@@ -19,7 +19,9 @@ def check_authentication_header(x_api_key: str = Depends(X_API_KEY_HEADER)):
 stage = os.getenv('Stage')
 root_path = f"/{stage}" if stage else ""
 
-app = FastAPI(dependencies=[Security(check_authentication_header)],
+app = FastAPI(title="FastAPI Sample on AWS",
+              version="v0.1.0",
+              dependencies=[Security(check_authentication_header)],
               responses={403:{"detail":"Not authenticated"}},
               root_path=root_path,
               # servers=[

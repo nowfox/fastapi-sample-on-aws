@@ -65,7 +65,7 @@ export class ApiStack extends Construct {
   private createFunction(apiRole: Role, apiLayerVersion: LayerVersion) {
     const apiFunction = new Function(this, 'ApiFunction', {
       functionName: `${SolutionInfo.SOLUTION_NAME}-API`,
-      description: `${SolutionInfo.SOLUTION_FULL_NAME} - init database`,
+      description: `${SolutionInfo.SOLUTION_FULL_NAME} - API`,
       runtime: Runtime.PYTHON_3_11,
       handler: 'main.handler',
       code: Code.fromAsset(path.join(__dirname, '../../api')),
@@ -122,6 +122,9 @@ export class ApiStack extends Construct {
       loggingLevel: MethodLoggingLevel.INFO,
     });
 
-    new CfnOutput(this, 'InvokeBaseUrl', { value: deploymentStage.urlForPath() });
+    new CfnOutput(this, 'InvokeBaseUrl', {
+      key: 'InvokeBaseUrl',
+      value: deploymentStage.urlForPath(),
+    });
   }
 }

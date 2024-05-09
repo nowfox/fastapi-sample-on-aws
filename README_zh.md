@@ -6,7 +6,7 @@
 <p align="center">FastAPI通过ApiGateway提供服务。</p>
 
 <p align="center">
-  <a href="https://nowfox.github.io/fastapi-sample-on-aws/en/"><strong>Documentation</strong></a>
+  <a href="https://nowfox.github.io/fastapi-sample-on-aws/zh/"><strong>文档</strong></a>
 </p>
 
 <p align="center">
