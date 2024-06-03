@@ -17,7 +17,7 @@ English | [简体中文](README_zh.md)
 Please make sure **docker** is installed and the CDK command is executed in the **same region** of the model files which are uploaded in previous step. 
 
 ## Deploy CDK Template
-Please make sure **docker** and **cdk** ard installed. 
+Please make sure **docker** and **cdk** are installed. 
 
 ```bash
 cd source/constructs
