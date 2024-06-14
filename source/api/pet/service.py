@@ -1,4 +1,8 @@
 from . import schemas
+from common import constant
+from common.logger_utils import get_logger
+
+logger = get_logger(constant.LOGGER_API)
 
 def __mock_pet() -> schemas.Pet:
     pet = schemas.Pet(
@@ -11,6 +15,7 @@ def __mock_pet() -> schemas.Pet:
 
 def list() -> list[schemas.Pet]:
     pet = __mock_pet()
+    logger.info(pet)
     return [pet]
 
 

@@ -6,9 +6,9 @@ from fastapi.security import APIKeyHeader
 from starlette import status
 from pet.main import router as pet_router
 from common import constant
+from common.logger_utils import get_logger
 
-logging.config.fileConfig('logging.conf', disable_existing_loggers=False)
-logger = logging.getLogger(constant.LOGGER_API)
+logger = get_logger(constant.LOGGER_API)
 
 X_API_KEY_HEADER = APIKeyHeader(name='X-API-Key')
 X_API_KEY = os.getenv('X-API-Key','1234')
