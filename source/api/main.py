@@ -26,7 +26,7 @@ def check_authentication_header(x_api_key: str = Depends(X_API_KEY_HEADER)):
 stage = os.getenv('Stage')
 root_path = f"/{stage}" if stage else ""
 logger.info(f"root_path={root_path}")
-app = FastAPI(title="Video Editing based on Video Understanding",
+app = FastAPI(title="FastAPI Sample on AWS",
               version="v0.1.0",
               dependencies=[Security(check_authentication_header)],
               responses={
