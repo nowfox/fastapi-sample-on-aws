@@ -1,12 +1,14 @@
 import os
-import logging.config
 from mangum import Mangum
 from fastapi import FastAPI, HTTPException, Depends, Security
 from fastapi.security import APIKeyHeader
 from starlette import status
-from pet.main import router as pet_router
 from common import constant
 from common.logger_utils import get_logger
+from common.schemas import Error
+from common.exception_handler import biz_exception
+
+from pet.main import router as pet_router
 
 logger = get_logger(constant.LOGGER_API)
 
@@ -24,16 +26,16 @@ def check_authentication_header(x_api_key: str = Depends(X_API_KEY_HEADER)):
 stage = os.getenv('Stage')
 root_path = f"/{stage}" if stage else ""
 logger.info(f"root_path={root_path}")
-app = FastAPI(title="FastAPI Sample on AWS",
+app = FastAPI(title="Video Editing based on Video Understanding",
               version="v0.1.0",
               dependencies=[Security(check_authentication_header)],
-              responses={403:{"detail":"Not authenticated"}},
+              responses={
+                  status.HTTP_400_BAD_REQUEST:{"model":Error},
+                  status.HTTP_403_FORBIDDEN:{},
+              },
               root_path=root_path,
-              # servers=[
-              #     {"url": "https://{region}.example.com", "description": "Staging environment","variables":{"region":{"default":"ccc","description":"ddd"}}},
-              #     {"url": "https://prod.example.com", "description": "Production environment"},
-              # ],
               )
+biz_exception(app)
 
 app.include_router(pet_router)
 handler = Mangum(app)
