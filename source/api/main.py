@@ -7,13 +7,11 @@ from common import constant
 from common.logger_utils import get_logger
 from common.schemas import Error
 from common.exception_handler import biz_exception
-
 from pet.main import router as pet_router
 
 logger = get_logger(constant.LOGGER_API)
-
-X_API_KEY_HEADER = APIKeyHeader(name='X-API-Key')
-X_API_KEY = os.getenv('X-API-Key','1234')
+X_API_KEY_HEADER = APIKeyHeader(name="X-API-Key")
+X_API_KEY = os.getenv("X-API-Key", "1234")
 
 
 def check_authentication_header(x_api_key: str = Depends(X_API_KEY_HEADER)):
@@ -23,18 +21,20 @@ def check_authentication_header(x_api_key: str = Depends(X_API_KEY_HEADER)):
             detail="Invalid API Key",
         )
 
-stage = os.getenv('Stage')
+
+stage = os.getenv("Stage")
 root_path = f"/{stage}" if stage else ""
-logger.info(f"root_path={root_path}")
-app = FastAPI(title="FastAPI Sample on AWS",
-              version="v0.1.0",
-              dependencies=[Security(check_authentication_header)],
-              responses={
-                  status.HTTP_400_BAD_REQUEST:{"model":Error},
-                  status.HTTP_403_FORBIDDEN:{},
-              },
-              root_path=root_path,
-              )
+logger.info("root_path=%s", root_path)
+app = FastAPI(
+    title="FastAPI Sample on AWS",
+    version="v0.1.0",
+    dependencies=[Security(check_authentication_header)],
+    responses={
+        status.HTTP_400_BAD_REQUEST: {"model": Error},
+        status.HTTP_403_FORBIDDEN: {},
+    },
+    root_path=root_path,
+)
 biz_exception(app)
 
 app.include_router(pet_router)

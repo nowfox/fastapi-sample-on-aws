@@ -1,10 +1,18 @@
-from typing import Optional
 from pydantic import BaseModel, Field
-
-class PetBase(BaseModel):
-    name: str = Field(title="MyTitle",description="MyDescription")
-    description: Optional[str] = ""
+from common.enum import Sex
 
 
-class Pet(PetBase):
-    id: int
+class PetCreate(BaseModel):
+    name: str = Field(description="Pet name")
+    sex: Sex = Sex.FEMALE
+    description: str | None = None
+
+
+class Pet(PetCreate):
+    id: str
+
+
+class PetUpdate(BaseModel):
+    name: str = None
+    sex: Sex = None
+    description: str = None

@@ -17,10 +17,11 @@ import {
   Tags,
 } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { ApiStack } from './ApiStack';
 import { BuildConfig } from './common/BuildConfig';
 import { Parameter } from './common/Parameter';
 import { SolutionInfo } from './common/SolutionInfo';
+import { ApiConstruct } from './ApiConstruct';
+import { DdbConstruct } from './DdbConstruct';
 
 export interface MainProps extends StackProps {
   readonly lambdaMemorySize?: number;
@@ -35,7 +36,8 @@ export class MainStack extends Stack {
     Parameter.init();
     this.setBuildConfig();
 
-    new ApiStack(this, 'API');
+    new ApiConstruct(this, 'API');
+    new DdbConstruct(this, 'Ddb');
 
     this.templateOptions.metadata = {
       'AWS::CloudFormation::Interface': {

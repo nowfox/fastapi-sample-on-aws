@@ -1,5 +1,5 @@
 import path = require('path');
-import { Aws, Stack, StackProps, Duration, CfnOutput } from 'aws-cdk-lib';
+import { Aws, Duration, CfnOutput } from 'aws-cdk-lib';
 import { RestApi, EndpointType, Cors, LambdaIntegration, Deployment, MethodLoggingLevel, Stage } from 'aws-cdk-lib/aws-apigateway';
 import { Policy, PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 import { Code, LayerVersion, Runtime, Function } from 'aws-cdk-lib/aws-lambda';
@@ -8,7 +8,7 @@ import { BuildConfig } from './common/BuildConfig';
 import { SolutionInfo } from './common/SolutionInfo';
 
 
-export class ApiStack extends Construct {
+export class ApiConstruct extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -20,7 +20,7 @@ export class ApiStack extends Construct {
 
   private createRole() {
     const apiRole = new Role(this, 'APIRole', {
-      roleName: `${SolutionInfo.SOLUTION_NAME}APIRole-${Aws.REGION}`, //Name must be specified
+      roleName: `${SolutionInfo.SOLUTION_NAME}APIRole-${Aws.REGION}`,
       assumedBy: new ServicePrincipal('lambda.amazonaws.com'),
     });
 
@@ -40,6 +40,19 @@ export class ApiStack extends Construct {
       ],
     });
     apiRole.attachInlinePolicy(logPolicy);
+
+    const apiPolicy = new Policy(this, 'ApiPolicy', {
+      policyName: `${SolutionInfo.SOLUTION_NAME}ApiPolicy`,
+      statements: [
+        new PolicyStatement({
+          actions: [
+            'dynamodb:*',
+          ],
+          resources: [`arn:${Aws.PARTITION}:dynamodb:${Aws.REGION}:${Aws.ACCOUNT_ID}:table/PetSample`],
+        }),
+      ],
+    });
+    apiRole.attachInlinePolicy(apiPolicy);
     return apiRole;
   }
 
@@ -47,7 +60,7 @@ export class ApiStack extends Construct {
     const apiLayerVersion = new LayerVersion(this, 'APILayer', {
       code: Code.fromAsset(path.join(__dirname, '../../api'), {
         bundling: {
-          image: Runtime.PYTHON_3_11.bundlingImage,
+          image: Runtime.PYTHON_3_12.bundlingImage,
           command: [
             'bash',
             '-c',
@@ -56,7 +69,7 @@ export class ApiStack extends Construct {
         },
       }),
       layerVersionName: `${SolutionInfo.SOLUTION_NAME}-API`,
-      compatibleRuntimes: [Runtime.PYTHON_3_11],
+      compatibleRuntimes: [Runtime.PYTHON_3_12],
       description: `${SolutionInfo.SOLUTION_FULL_NAME} - API layer`,
     });
     return apiLayerVersion;
@@ -66,7 +79,7 @@ export class ApiStack extends Construct {
     const apiFunction = new Function(this, 'ApiFunction', {
       functionName: `${SolutionInfo.SOLUTION_NAME}-API`,
       description: `${SolutionInfo.SOLUTION_FULL_NAME} - API`,
-      runtime: Runtime.PYTHON_3_11,
+      runtime: Runtime.PYTHON_3_12,
       handler: 'main.handler',
       code: Code.fromAsset(path.join(__dirname, '../../api')),
       memorySize: 1024,

@@ -1,0 +1,19 @@
+{
+    "search.followSymlinks": false,
+    "python.analysis.extraPaths": [
+        "/home/ec2-user/data/fastapi-sample-on-aws/source//api"
+    ],
+    "python.analysis.exclude": [
+        "/home/ec2-user/data/fastapi-sample-on-aws/source/constructs/cdk.out"
+    ],
+    "black-formatter.args": [
+        "--line-length=120"
+    ],
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/**": true,
+        "**/cdk.out/**": true,
+        "**/.next/**": true,
+    }
+}
