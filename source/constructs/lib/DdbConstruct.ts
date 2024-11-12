@@ -1,4 +1,5 @@
 import { Construct } from 'constructs';
+import { RemovalPolicy } from 'aws-cdk-lib';
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb';
 
 
@@ -10,6 +11,7 @@ export class DdbConstruct extends Construct {
             tableName: "PetSample",
             partitionKey: { name: 'id', type: dynamodb.AttributeType.STRING },
             billingMode: dynamodb.BillingMode.PAY_PER_REQUEST,
+            removalPolicy: RemovalPolicy.DESTROY,
         });
     }
 }
