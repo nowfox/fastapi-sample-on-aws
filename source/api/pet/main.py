@@ -17,6 +17,9 @@ def get(id: str) -> schemas.Pet:
 
 @router.post("", response_model=schemas.Pet)
 def create(pet: schemas.PetCreate) -> schemas.Pet:
+    """
+    Create a pet.
+    """
     return service.create(pet)
 
 

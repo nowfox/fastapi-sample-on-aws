@@ -1,20 +1,20 @@
+import traceback
 from fastapi.responses import JSONResponse
 from fastapi import status, FastAPI, Request, Response
 from fastapi.exceptions import RequestValidationError
 from .enum import ErrorEnum
-import traceback
 from . import constant
 from .schemas import Error
 from .logger_utils import get_logger
+
 logger = get_logger(constant.LOGGER_API)
 
+
 def response_error(code: int, message: str, status_code: int = status.HTTP_400_BAD_REQUEST) -> Response:
-    headers = {}
-    content = Error(code=code,
-                    message=message)
+    content = Error(code=code, message=message)
     return JSONResponse(
         content=content.__dict__,
-        headers=headers,
+        headers=constant.HEADERS_ALLOW_ALL,
         status_code=status_code,
     )
 
@@ -22,7 +22,11 @@ def response_error(code: int, message: str, status_code: int = status.HTTP_400_B
 def biz_exception(app: FastAPI):
     # customize request validation error
     @app.exception_handler(RequestValidationError)
-    async def val_exception_handler(req: Request, rve: RequestValidationError, code: int = status.HTTP_422_UNPROCESSABLE_ENTITY):
+    async def val_exception_handler(
+        req: Request,
+        rve: RequestValidationError,
+        code: int = status.HTTP_422_UNPROCESSABLE_ENTITY,
+    ):
         return response_error(code, str(rve))
 
     # customize business error
@@ -41,10 +45,9 @@ def biz_exception(app: FastAPI):
 
 
 class BizException(Exception):
-    def __init__(self, error_message: ErrorEnum):
-        self.code = error_message.get_code()
-        self.message = error_message.get_message()
-
+    def __init__(self, error: ErrorEnum, message: str = None):
+        self.code = error.get_code()
+        self.message = message if message is not None else error.get_message()
 
     def __msg__(self):
         return self.message
