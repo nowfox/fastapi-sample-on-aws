@@ -139,5 +139,9 @@ export class ApiConstruct extends Construct {
       key: 'InvokeBaseUrl',
       value: deploymentStage.urlForPath(),
     });
+    new CfnOutput(this, 'DocUrl', {
+      key: 'DocUrl',
+      value: deploymentStage.urlForPath() + "docs",
+    });
   }
 }

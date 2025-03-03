@@ -22,3 +22,5 @@
 cd source/constructs
 cdk deploy
 ```
+部署完后后，您将得到DocUrl，点击后效果如下图：  
+![](resources/API.png)

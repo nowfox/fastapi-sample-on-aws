@@ -23,3 +23,5 @@ Please make sure **docker** and **cdk** are installed.
 cd source/constructs
 cdk deploy
 ```
+After deployment, you will receive the DocURL, and clicking on it will result in the following effect:  
+![](resources/API.png)
