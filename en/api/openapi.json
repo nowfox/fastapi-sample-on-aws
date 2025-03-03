@@ -1,14 +1,14 @@
 {
     "openapi": "3.1.0",
     "info": {
-        "title": "FastAPI",
-        "version": "0.1.0"
+        "title": "FastAPI Sample on AWS",
+        "version": "v0.1.0"
     },
     "paths": {
         "/pets": {
             "get": {
                 "tags": [
-                    "pets"
+                    "Pets"
                 ],
                 "summary": "List",
                 "operationId": "list_pets_get",
@@ -27,9 +27,76 @@
                             }
                         }
                     },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
                     "403": {
-                        "description": "Forbidden",
-                        "detail": "Not authenticated"
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "APIKeyHeader": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pets"
+                ],
+                "summary": "Create",
+                "description": "Create a pet.",
+                "operationId": "create_pets_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PetCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Pet"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
                     }
                 },
                 "security": [
@@ -42,7 +109,7 @@
         "/pets/{id}": {
             "get": {
                 "tags": [
-                    "pets"
+                    "Pets"
                 ],
                 "summary": "Get",
                 "operationId": "get_pets__id__get",
@@ -57,7 +124,7 @@
                         "in": "path",
                         "required": true,
                         "schema": {
-                            "type": "integer",
+                            "type": "string",
                             "title": "Id"
                         }
                     }
@@ -73,8 +140,143 @@
                             }
                         }
                     },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
                     "403": {
-                        "detail": "Not authenticated",
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Pets"
+                ],
+                "summary": "Update",
+                "operationId": "update_pets__id__patch",
+                "security": [
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PetUpdate"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PetUpdate"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Pets"
+                ],
+                "summary": "Delete",
+                "operationId": "delete_pets__id__delete",
+                "security": [
+                    {
+                        "APIKeyHeader": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "title": "Id"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Result"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Error"
+                                }
+                            }
+                        },
+                        "description": "Bad Request"
+                    },
+                    "403": {
                         "description": "Forbidden"
                     },
                     "422": {
@@ -93,6 +295,24 @@
     },
     "components": {
         "schemas": {
+            "Error": {
+                "properties": {
+                    "code": {
+                        "type": "integer",
+                        "title": "Code"
+                    },
+                    "message": {
+                        "type": "string",
+                        "title": "Message"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "title": "Error"
+            },
             "HTTPValidationError": {
                 "properties": {
                     "detail": {
@@ -110,8 +330,12 @@
                 "properties": {
                     "name": {
                         "type": "string",
-                        "title": "MyTitle",
-                        "description": "MyDescription"
+                        "title": "Name",
+                        "description": "Pet name"
+                    },
+                    "sex": {
+                        "$ref": "#/components/schemas/Sex",
+                        "default": "Female"
                     },
                     "description": {
                         "anyOf": [
@@ -122,11 +346,10 @@
                                 "type": "null"
                             }
                         ],
-                        "title": "Description",
-                        "default": ""
+                        "title": "Description"
                     },
                     "id": {
-                        "type": "integer",
+                        "type": "string",
                         "title": "Id"
                     }
                 },
@@ -136,6 +359,73 @@
                     "id"
                 ],
                 "title": "Pet"
+            },
+            "PetCreate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name",
+                        "description": "Pet name"
+                    },
+                    "sex": {
+                        "$ref": "#/components/schemas/Sex",
+                        "default": "Female"
+                    },
+                    "description": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "type": "null"
+                            }
+                        ],
+                        "title": "Description"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "title": "PetCreate"
+            },
+            "PetUpdate": {
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "title": "Name"
+                    },
+                    "sex": {
+                        "$ref": "#/components/schemas/Sex"
+                    },
+                    "description": {
+                        "type": "string",
+                        "title": "Description"
+                    }
+                },
+                "type": "object",
+                "title": "PetUpdate"
+            },
+            "Result": {
+                "properties": {
+                    "result": {
+                        "type": "string",
+                        "title": "Result"
+                    }
+                },
+                "type": "object",
+                "required": [
+                    "result"
+                ],
+                "title": "Result"
+            },
+            "Sex": {
+                "type": "string",
+                "enum": [
+                    "Male",
+                    "Female"
+                ],
+                "title": "Sex"
             },
             "ValidationError": {
                 "properties": {
